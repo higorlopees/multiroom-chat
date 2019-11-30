@@ -11,5 +11,11 @@ module.exports.iniciaChat = function(application, req, res){
         return;
     }
 
-    res.render('chat');
+    var socket = application.get('io');
+
+    socket.emit('msgParaCliente',{ apelido: '<font color="green">' + dadosForm.apelido + '</font>', mensagem: '<font color="green">Acabou de entrar no chat</font>' });
+    
+    socket.emit('participantesParaCliente',{ apelido: dadosForm.apelido });
+
+    res.render('chat', { dadosForm: dadosForm });
 }

@@ -13,22 +13,17 @@ app.set('io', io);
 
 // create the connection by websocket
 io.on('connection',function(socket){
-    console.log('Usuário conectou');
-
-    socket.on('disconnect',function(){
-        console.log('Usuário desconectou');
+    socket.on('logoutParaServidor', function(data){
+        socket.broadcast.emit('logoutParticipanteParaCliente',{ apelido: data.apelido });
+        socket.broadcast.emit('msgParaCliente', { apelido: '<font color="red">' + data.apelido + '</font>', mensagem: '<font color="red">Acabou de sair do chat</font>' });
+        var arrayIndex = app.settings.chatParticipants.indexOf(data.apelido);
+        app.settings.chatParticipants.splice(arrayIndex, 1);
     })
-    
+
     socket.on('msgParaServidor', function(data){
-        if(data.logout){
-            socket.broadcast.emit('logoutParticipanteParaCliente',{ apelido: data.apelido });
-            socket.broadcast.emit('msgParaCliente', { apelido: '<font color="red">' + data.apelido + '</font>', mensagem: '<font color="red">Acabou de sair do chat</font>' });
-        }
-        else{
-            // dialog
-            socket.emit('msgParaCliente',{ apelido: data.apelido, mensagem: data.mensagem });
-    
-            socket.broadcast.emit('msgParaCliente',{ apelido: data.apelido, mensagem: data.mensagem });            
-        }
+        // dialog
+        socket.emit('msgParaCliente',{ apelido: data.apelido, mensagem: data.mensagem });
+
+        socket.broadcast.emit('msgParaCliente',{ apelido: data.apelido, mensagem: data.mensagem });            
     })
 })

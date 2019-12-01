@@ -85,6 +85,14 @@
 						<img src="./images/ico_usuario.png">
 						<strong>Você</strong>
 					</span>
+					<% for(var i = 0; i < participantes.length; i++) { %>
+						<% if(participantes[i] != dadosForm.apelido) { %>
+						<span class="participante">
+							<img src="./images/ico_usuario.png">
+							<%= participantes[i] %>
+						</span>
+						<% } %>
+					<% } %>
 				</div>
 				<div class="col-md-1"></div>
                 
@@ -117,8 +125,15 @@
 				socket.emit('msgParaServidor', { apelido: $('#apelido').val(), mensagem: $('#mensagem').val() });
 			});
 
+			$('#mensagem').keypress(function(event){
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == '13'){
+					socket.emit('msgParaServidor', { apelido: $('#apelido').val(), mensagem: $('#mensagem').val() });
+				}
+			});
+
 			$(window).on("beforeunload", function() { 
-				socket.emit('msgParaServidor', { apelido: $('#apelido').val(), logout: 1 });
+				socket.emit('logoutParaServidor', { apelido: $('#apelido').val() });
 			})
 
 			socket.on('msgParaCliente', function(data){

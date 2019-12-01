@@ -10,12 +10,16 @@ var bodyParser = require('body-parser');
 // import express-validator module
 var expressValidator = require('express-validator');
 
+// import validator module
+var validator = require('validator');
+
 // initiate express object
 var app = express();
 
-// setting 'view engine' and express 'views' variables
+// setting chatParticipants,'view engine' and express 'views' variables
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
+app.set('chatParticipants',[]);
 
 // configure express.static middleware
 app.use(express.static('./app/public'));

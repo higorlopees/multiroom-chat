@@ -28,6 +28,16 @@
 					$("#conversa").hide();
 					ocultaNavbar();
 				});
+
+				$("#home").click(function(){
+					var r = confirm('Você deseja mesmo sair do chat?');
+					if(r == true){
+						socket.emit('logoutParaServidor', { apelido: $('#apelido').val() });
+					}
+					else{
+						event.preventDefault();
+					}
+				});
 			});
 			
 			function ocultaNavbar(){
@@ -131,7 +141,7 @@
 					socket.emit('msgParaServidor', { apelido: $('#apelido').val(), mensagem: $('#mensagem').val() });
 				}
 			});
-
+			
 			$(window).on("beforeunload", function() { 
 				socket.emit('logoutParaServidor', { apelido: $('#apelido').val() });
 			})

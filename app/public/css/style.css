@@ -98,3 +98,7 @@ img {
 	padding-left:15px;
 	color:#8B7777;
 }
+
+button{
+    cursor: pointer;
+}

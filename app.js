@@ -7,7 +7,7 @@ var server = app.listen(80, function(){
 })
 
 // create the variable io
-var io = require('socket.io').listen(server);;
+var io = require('socket.io').listen(server);
 
 app.set('io', io);
 
